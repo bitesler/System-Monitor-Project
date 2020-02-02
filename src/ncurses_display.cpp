@@ -7,6 +7,7 @@
 #include "format.h"
 #include "ncurses_display.h"
 #include "system.h"
+#include "process.h"
 
 using std::string;
 using std::to_string;
@@ -15,7 +16,7 @@ using std::to_string;
 // 2% is one bar(|)
 std::string NCursesDisplay::ProgressBar(float percent) {
   std::string result{"0%"};
-  int size{50};
+  int size{65};
   float bars{percent * size};
 
   for (int i{0}; i < size; ++i) {
@@ -34,12 +35,12 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   mvwprintw(window, ++row, 2, ("Kernel: " + system.Kernel()).c_str());
   mvwprintw(window, ++row, 2, "CPU: ");
   wattron(window, COLOR_PAIR(1));
-  mvwprintw(window, row, 10, "");
+  mvwprintw(window, row, 25, "");
   wprintw(window, ProgressBar(system.Cpu().Utilization()).c_str());
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2, "Memory: ");
   wattron(window, COLOR_PAIR(1));
-  mvwprintw(window, row, 10, "");
+  mvwprintw(window, row, 25, "");
   wprintw(window, ProgressBar(system.MemoryUtilization()).c_str());
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2,
@@ -56,9 +57,9 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
                                       WINDOW* window, int n) {
   int row{0};
   int const pid_column{2};
-  int const user_column{9};
-  int const cpu_column{16};
-  int const ram_column{26};
+  int const user_column{8};
+  int const cpu_column{17};
+  int const ram_column{24};
   int const time_column{35};
   int const command_column{46};
   wattron(window, COLOR_PAIR(2));
